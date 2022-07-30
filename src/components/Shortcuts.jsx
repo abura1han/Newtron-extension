@@ -86,7 +86,7 @@ const Shortcut = ({ name, url, index }) => {
       >
         {!isImgError ? (
           <img
-            className=""
+            className="rounded-full"
             onError={() => {
               setIsImgError(true)
             }}
