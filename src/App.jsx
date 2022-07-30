@@ -22,16 +22,14 @@ const Newtron_SETTINGS = {
 }
 
 const Newtron_EDITOR = {
-  editorTheme: 'Key Dark',
   editorHeight: 25,
-  currentView: 0,
+  openedTabId: '',
 }
 
 const Newtron_DATA = {
   shortcuts: [],
   notes: [],
   todos: [],
-  links: [],
 }
 
 function App() {
@@ -40,7 +38,7 @@ function App() {
   const [user, setUser] = useState({})
   const [settings, setSettings] = useState({})
   const [popup, setPopup] = useState({ isOpen: false, children: <></> })
-  const [editor, setEditor] = useState(Newtron_EDITOR)
+  const [editor, setEditor] = useState({})
 
   const [isUserInteracted, setIsUserInteracted] = useState(0)
 
@@ -56,7 +54,6 @@ function App() {
     } else {
       const dataFromLocal = storage.getItem('Newtron-storage')
       setData(JSON.parse(dataFromLocal))
-      console.log(JSON.parse(dataFromLocal))
 
       console.log('Reading data from existings')
     }
@@ -72,6 +69,19 @@ function App() {
       setSettings(JSON.parse(settingsFromLocal))
 
       console.log('Reading settings from existings')
+    }
+
+    // Settings
+    if (!storage.getItem('Newtron-editor')) {
+      storage.setItem('Newtron-editor', JSON.stringify(Newtron_EDITOR))
+      setEditor(Newtron_EDITOR)
+
+      console.log('Editor installed ✅')
+    } else {
+      const editorFromLocal = storage.getItem('Newtron-editor')
+      setEditor(JSON.parse(editorFromLocal))
+
+      console.log('Reading editor from existings')
     }
   }, [storage])
 
