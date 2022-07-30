@@ -1,23 +1,10 @@
 import { useRef, useState } from 'react'
-import useKeyboardShortcut from 'use-keyboard-shortcut'
 
 export const HeroSearch = () => {
   const [isFocused, setIsFocused] = useState(false)
   const [search, setSearch] = useState('')
 
   const SearchRef = useRef(null)
-
-  useKeyboardShortcut(
-    ['/'],
-    () => {
-      SearchRef.current.focus()
-    },
-    {
-      overrideSystem: false,
-      ignoreInputFields: false,
-      repeatOnHold: false,
-    }
-  )
 
   return (
     <form action="https://www.google.com/search">
