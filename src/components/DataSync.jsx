@@ -1,9 +1,15 @@
 import React, { useContext, useEffect } from 'react'
-import { DataContext, SettingsContext } from '../context/GlobalContext'
+import {
+  DataContext,
+  EditorContext,
+  SettingsContext,
+} from '../context/GlobalContext'
 
+// Sync all updated data
 const DataSync = ({ children }) => {
   const [settings] = useContext(SettingsContext)
   const [data] = useContext(DataContext)
+  const [editor] = useContext(EditorContext)
 
   const storage = window.localStorage
 
@@ -22,6 +28,14 @@ const DataSync = ({ children }) => {
       storage.setItem('Newtron-storage', JSON.stringify(data))
     }
   }, [data, storage])
+
+  useEffect(() => {
+    console.log(editor)
+
+    if (Object.keys(editor).length !== 0) {
+      storage.setItem('Newtron-editor', JSON.stringify(editor))
+    }
+  }, [editor, storage])
 
   return <>{children && children}</>
 }
