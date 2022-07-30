@@ -31,7 +31,7 @@ export const StatusBar = () => {
         </button>
         <button className="ml-2 px-1 text-sm hover:bg-[#242424]">
           <Online>Online:✅</Online>
-          <Offline>Offline:🚫</Offline>
+          <Offline>Online:🚫</Offline>
         </button>
       </div>
     </div>
