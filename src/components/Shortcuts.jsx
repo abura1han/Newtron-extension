@@ -55,7 +55,7 @@ const Shortcut = ({ name, url }) => {
       </a>
       <a
         href={url && url}
-        className="block mt-1 text-white font-normal text-base text-ellipsis overflow-hidden w-full"
+        className="block mt-2 text-white font-normal text-sm text-ellipsis overflow-hidden w-full text-center"
       >
         {name || url.replace(/(^\w+:|^)\/\//, '')}
       </a>
@@ -154,7 +154,7 @@ export const AddHeroShortCut = ({ name, url }) => {
         >
           <span className="text-white material-symbols-outlined">add</span>
         </button>
-        <span className="block mt-1 text-white font-normal text-base">
+        <span className="block mt-2 text-white font-normal text-sm">
           Add Shortcut
         </span>
       </div>
