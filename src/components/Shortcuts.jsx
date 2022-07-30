@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import {
   DataContext,
   PopupContext,
@@ -12,7 +12,7 @@ export const HeroShortCut = () => {
   return (
     <div className="mt-[45px] flex items-center justify-center flex-wrap max-w-[720px] max-h-[600px] overflow-auto">
       {data?.shortcuts?.map((e, i) => (
-        <Shortcut key={i} name={e.name} url={e.url} />
+        <Shortcut key={i} name={e.name} url={e.url} index={i} />
       ))}
       <AddHeroShortCut />
     </div>
@@ -21,9 +21,29 @@ export const HeroShortCut = () => {
 
 const s2ServerUrl = 'http://www.google.com/s2/favicons?domain='
 
-const Shortcut = ({ name, url }) => {
+const Shortcut = ({ name, url, index }) => {
   const [isHover, setIsHover] = useState(false)
   const [isImgError, setIsImgError] = useState(false)
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
+
+  const [data, setData] = useContext(DataContext)
+  const [, setPopup] = useContext(PopupContext)
+
+  const handleDeleteShortcut = (index) => {
+    const newData = data.shortcuts.filter((e, i) => i !== index)
+    setData({ ...data, shortcuts: [...newData] })
+    setIsOptionsOpen(false)
+  }
+
+  const handleUpdateShortcut = () => {
+    setIsOptionsOpen(false)
+    setPopup({
+      isOpen: true,
+      children: (
+        <AddShortCutPopup index={index} updateName={name} updateUrl={url} />
+      ),
+    })
+  }
 
   return (
     <div
@@ -32,10 +52,33 @@ const Shortcut = ({ name, url }) => {
       onMouseLeave={() => setIsHover(false)}
     >
       {isHover && (
-        <button className="absolute right-5 top-1 w-1 h-1 rounded-full">
+        <button
+          className="absolute right-5 top-1 w-1 h-1 rounded-full"
+          onClick={() => {
+            setIsOptionsOpen(!isOptionsOpen)
+          }}
+        >
           <span className="material-icons text-white text-xl">more_vert</span>
         </button>
       )}
+
+      {isOptionsOpen && isHover && (
+        <div className="absolute left-0 z-30 flex flex-col items-start bg-[#141414] py-1 rounded">
+          <button
+            className="text-white text-sm py-2 px-4 min-w-[200px] text-left hover:bg-[#222222]"
+            onClick={handleUpdateShortcut}
+          >
+            Edit
+          </button>
+          <button
+            className="text-white text-sm py-2 px-4 min-w-[200px] text-left hover:bg-[#222222]"
+            onClick={() => handleDeleteShortcut(index)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
       <a
         href={url && url}
         className="flex items-center justify-center w-[60px] h-[60px] rounded-full border border-[#545454] overflow-hidden bg-[#141414]"
@@ -63,12 +106,12 @@ const Shortcut = ({ name, url }) => {
   )
 }
 
-const AddShortCutPopup = () => {
+const AddShortCutPopup = ({ index, updateName, updateUrl }) => {
   const [, setPopup] = useContext(PopupContext)
-  const [, setData] = useContext(DataContext)
+  const [data, setData] = useContext(DataContext)
 
-  const [name, setName] = useState('')
-  const [url, setUrl] = useState('')
+  const [name, setName] = useState(updateName || '')
+  const [url, setUrl] = useState(updateUrl || '')
 
   const handleAddShortcut = (e) => {
     e.preventDefault()
@@ -81,9 +124,23 @@ const AddShortCutPopup = () => {
     setPopup({ isOpen: false })
   }
 
+  const handleUpdateShortcut = (e) => {
+    e.preventDefault()
+
+    let updatedData = data.shortcuts
+    updatedData[index] = { name, url }
+
+    setData((p) => ({
+      ...p,
+      shortcuts: [...updatedData],
+    }))
+
+    setPopup({ isOpen: false })
+  }
+
   return (
     <form
-      onSubmit={handleAddShortcut}
+      onSubmit={updateUrl ? handleUpdateShortcut : handleAddShortcut}
       className="w-full min-w-[400px] max-w-md mx-auto absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 bg-[#141414] px-3 py-4 rounded shadow-md"
     >
       <h2 className="text-white text-lg">Add shortcut</h2>
@@ -97,7 +154,7 @@ const AddShortCutPopup = () => {
           id="name"
           className="px-2 py-3 text-white bg-[#0e0e0e] rounded mt-1 outline-none"
           onChange={(e) => setName(e.target.value)}
-          value={name}
+          defaultValue={name}
         />
       </div>
       <div className="flex flex-col mt-3">
@@ -110,7 +167,7 @@ const AddShortCutPopup = () => {
           id="url"
           className="px-2 py-3 text-white bg-[#0e0e0e] rounded mt-1 outline-none"
           onChange={(e) => setUrl(e.target.value)}
-          value={url}
+          defaultValue={url}
           required
         />
       </div>
