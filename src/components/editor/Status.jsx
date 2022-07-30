@@ -6,7 +6,7 @@ export const StatusBar = () => {
   const [data] = useContext(DataContext)
 
   return (
-    <div className="fixed left-0 bottom-0 w-full flex items-center justify-between px-4 bg-[#141414] text-white font-thin border-t border-t-[#545454] select-none cursor-row-resize z-50">
+    <div className="fixed left-0 bottom-0 w-full flex items-center justify-between px-4 bg-[#141414] text-white font-thin border-t border-t-[#545454] select-none z-50">
       <div className="flex cursor-default">
         <button className="mr-3 px-1 text-sm hover:bg-[#242424]">
           Abu Raihan
