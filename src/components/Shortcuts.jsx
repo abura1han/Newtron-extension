@@ -19,7 +19,8 @@ export const HeroShortCut = () => {
   )
 }
 
-const s2ServerUrl = 'http://www.google.com/s2/favicons?domain='
+const s2ServerUrl =
+  'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url='
 
 const Shortcut = ({ name, url, index }) => {
   const [isHover, setIsHover] = useState(false)
