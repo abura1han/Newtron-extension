@@ -1,10 +1,12 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import {
   DataContext,
   PopupContext,
   SettingsContext,
 } from '../context/GlobalContext'
 import useKeyboardShortcut from 'use-keyboard-shortcut'
+import { getShortcutIconUrl } from '../constants'
+import AddIcon from '../assets/icons/add.svg'
 
 export const HeroShortCut = () => {
   const [data] = useContext(DataContext)
@@ -18,9 +20,6 @@ export const HeroShortCut = () => {
     </div>
   )
 }
-
-const s2ServerUrl =
-  'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url='
 
 const Shortcut = ({ name, url, index }) => {
   const [isHover, setIsHover] = useState(false)
@@ -90,7 +89,7 @@ const Shortcut = ({ name, url, index }) => {
             onError={() => {
               setIsImgError(true)
             }}
-            src={`${url && s2ServerUrl + url}&size=50`}
+            src={`${url && getShortcutIconUrl + url}&size=50`}
             alt="google"
           />
         ) : (

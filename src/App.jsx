@@ -22,8 +22,9 @@ const Newtron_SETTINGS = {
 }
 
 const Newtron_EDITOR = {
+  activeTab: {},
   editorHeight: 25,
-  openedTabId: '',
+  expandedGroups: {},
 }
 
 const Newtron_DATA = {
