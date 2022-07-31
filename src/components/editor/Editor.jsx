@@ -90,7 +90,7 @@ const SideBar = () => {
             <div className="last:mb-5" key={i}>
               <div
                 className={`flex items-center justify-start pl-4 pr-2 py-2 border-b border-b-[#545454] ${
-                  editor.activeTab.section === e
+                  editor.activeTab?.section === e
                     ? 'bg-[#141414]'
                     : 'bg-[#242424]'
                 }
@@ -111,7 +111,7 @@ const SideBar = () => {
                   </div>
                   <span
                     className={`material-icons text-white text-base ml-3 ${
-                      editor.expandedGroups[e] && 'rotate-180'
+                      editor?.expandedGroups[e] && 'rotate-180'
                     }`}
                   >
                     keyboard_arrow_down
@@ -125,7 +125,7 @@ const SideBar = () => {
                   <img src={AddIcon} alt={'add'} />
                 </button>
               </div>
-              {editor.expandedGroups[e] && (
+              {editor?.expandedGroups[e] && (
                 <div className="my-2">
                   {data[e].map((f, i) => (
                     <SideBarTab
