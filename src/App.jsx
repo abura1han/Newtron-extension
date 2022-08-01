@@ -112,7 +112,7 @@ function App() {
 
                   {/* Top absolute section */}
                   <div className="fixed w-full top-5 flex justify-between px-5 left-0 z-20">
-                    <BrandProfile />
+                    <di></di>
                     <Profile />
                   </div>
 

@@ -107,3 +107,38 @@
 .RichEditor-activeButton {
   color: #5890ff;
 }
+
+.newtron-editor h1 {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.newtron-editor h2 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.newtron-editor h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.newtron-editor blockquote {
+  background: #242424;
+  border-left: 10px solid #ccc;
+  border-radius: 8px;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: '\201C''\201D''\2018''\2019';
+}
+.newtron-editor blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+.newtron-editor blockquote p {
+  display: inline;
+}
