@@ -4,7 +4,6 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { v4 as uuidv4 } from 'uuid'
 import { StatusBar } from './Status'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { DataContext, EditorContext } from '../../context/GlobalContext'
 import NotesIcon from '../../assets/icons/notes.svg'
 import TodosIcon from '../../assets/icons/todos.svg'
@@ -12,6 +11,8 @@ import AddIcon from '../../assets/icons/add.svg'
 import CheckIcon from '../../assets/icons/check.svg'
 import TrashIcon from '../../assets/icons/trash.svg'
 import CloseIcon from '../../assets/icons/close.svg'
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
 const SidebarIcons = ['', NotesIcon, TodosIcon]
 
@@ -406,7 +407,7 @@ const ItemTitle = ({ id, group }) => {
 
   return (
     <input
-      className="w-full px-3 py-3 bg-transparent text-xl outline-none text-white bg-black rounded"
+      className="w-full px-3 py-3 text-xl outline-none text-white bg-[#242424] rounded"
       type={'text'}
       placeholder={'Enter a title...'}
       value={
@@ -451,15 +452,33 @@ const MarkdownEditor = ({ id, group }) => {
       <textarea
         onChange={(e) => setContent(e.target.value)}
         value={content}
-        className="w-full h-[calc(100% - 400px)] text-white bg-transparent outline-none px-5 mt-10 border-r border-r-black"
+        className="w-full h-[calc(100% - 400px)] text-white bg-transparent outline-none px-5 mt-10 border-r-2 border-r-[#242424]"
         placeholder="Start writing here"
         onKeyUp={handleAddContent}
         rows={30}
       />
       <ReactMarkdown
-        className="w-full text-white bg-transparent outline-none px-5 mt-10"
         children={content}
         remarkPlugins={[remarkGfm]}
+        className="w-full text-white bg-transparent outline-none px-5 mt-10"
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ? (
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, '')}
+                style={dark}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              />
+            ) : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            )
+          },
+        }}
       />
     </div>
   )
@@ -502,7 +521,7 @@ const TodoEditor = ({ id, group }) => {
         {todos?.map((e, i) => (
           <div
             key={i}
-            className="flex justify-between items-center px-2 py-2 my-2 bg-black rounded"
+            className="flex justify-between items-center px-2 py-2 my-2 bg-[#242424] rounded"
           >
             <div
               className={`text-white ${e.isCompleted && 'italic opacity-80'}`}
